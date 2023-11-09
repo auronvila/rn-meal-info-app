@@ -5,18 +5,21 @@ import MealDetails from '../components/MealDetails';
 import SubTitle from '../components/mealDetail/SubTitle';
 import List from '../components/mealDetail/List';
 import {useLayoutEffect} from 'react';
+import IconButton from '../components/IconButton';
 
 export default function MealsDetailScreen() {
   const route = useRoute();
   const navigation = useNavigation();
   const mealId = route.params.id;
 
+  function triggerWhenPressed() {
+    console.log('pressed')
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight:() => {
-        return(
-          <Text>Hello</Text>
-        )
+      headerRight: () => {
+        return <IconButton color={'white'} icon={'star'} onPress={triggerWhenPressed}/>
       }
     })
   }, []);
