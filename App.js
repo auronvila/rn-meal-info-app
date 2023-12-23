@@ -8,6 +8,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import FavouritesScreen from './screens/FavouritesScreen';
 import {Ionicons} from '@expo/vector-icons';
 import FavouritesContextProvider from './store/context/favourites-context';
+import {Provider} from 'react-redux';
+import {store} from './store/redux/store';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -53,33 +55,35 @@ export default function App() {
   return (
     <NavigationContainer>
       <FavouritesContextProvider>
-        <Stack.Navigator screenOptions={{
-          contentStyle: {
-            backgroundColor: '#50392c'
-          },
-          headerStyle: {
-            backgroundColor: '#351401'
-          },
-          headerTintColor: 'white',
-        }} initialRouteName={'MealsCategories'}>
-          <Stack.Screen
-            options={{headerShown: false}}
-            name={'MealsCategories'}
-            component={DrawerNavigation}
-          />
-          <Stack.Screen
-            name={'MealsOverView'}
-            component={MealsOverViewScreen}
-          />
-          <Stack.Screen
-            options={{
-              title: 'Meal Details',
-            }}
-            name={'MealsDetail'}
-            component={MealsDetailScreen}
-          />
-        </Stack.Navigator>
-        <StatusBar barStyle={'light-content'}/>
+        <Provider store={store}>
+          <Stack.Navigator screenOptions={{
+            contentStyle: {
+              backgroundColor: '#50392c'
+            },
+            headerStyle: {
+              backgroundColor: '#351401'
+            },
+            headerTintColor: 'white',
+          }} initialRouteName={'MealsCategories'}>
+            <Stack.Screen
+              options={{headerShown: false}}
+              name={'MealsCategories'}
+              component={DrawerNavigation}
+            />
+            <Stack.Screen
+              name={'MealsOverView'}
+              component={MealsOverViewScreen}
+            />
+            <Stack.Screen
+              options={{
+                title: 'Meal Details',
+              }}
+              name={'MealsDetail'}
+              component={MealsDetailScreen}
+            />
+          </Stack.Navigator>
+          <StatusBar barStyle={'light-content'}/>
+        </Provider>
       </FavouritesContextProvider>
     </NavigationContainer>
   );

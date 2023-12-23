@@ -7,14 +7,17 @@ import List from '../components/mealDetail/List';
 import {useContext, useLayoutEffect} from 'react';
 import IconButton from '../components/IconButton';
 import {FavouritesContext} from '../store/context/favourites-context';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function MealsDetailScreen() {
   const route = useRoute();
   const navigation = useNavigation();
   const mealId = route.params.id;
-  const {ids, addFavourite, removeFavourite} = useContext(FavouritesContext)
+  const {ids, addFavourite, removeFavourite} = useContext(FavouritesContext);
+  const favouriteMealIds = useSelector((state) => state.favouriteMeals.ids)
+  useDispatch()
 
-  const mealIsFavourite = ids.includes(mealId);
+  const mealIsFavourite = favouriteMealIds.includes(mealId);
 
   function triggerWhenPressed() {
     if (mealIsFavourite) {
