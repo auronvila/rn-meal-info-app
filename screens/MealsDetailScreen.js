@@ -4,25 +4,38 @@ import {MEALS} from '../data/dummy-data';
 import MealDetails from '../components/MealDetails';
 import SubTitle from '../components/mealDetail/SubTitle';
 import List from '../components/mealDetail/List';
-import {useLayoutEffect} from 'react';
+import {useContext, useLayoutEffect} from 'react';
 import IconButton from '../components/IconButton';
+import {FavouritesContext} from '../store/context/favourites-context';
 
 export default function MealsDetailScreen() {
   const route = useRoute();
   const navigation = useNavigation();
   const mealId = route.params.id;
+  const {ids, addFavourite, removeFavourite} = useContext(FavouritesContext)
+
+  const mealIsFavourite = ids.includes(mealId);
 
   function triggerWhenPressed() {
-    console.log('pressed')
+    if (mealIsFavourite) {
+      removeFavourite(mealId)
+    } else {
+      addFavourite(mealId)
+    }
   }
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => {
-        return <IconButton color={'white'} icon={'star'} onPress={triggerWhenPressed}/>
-      }
-    })
-  }, []);
+      headerRight: () => (
+        <IconButton
+          color={'white'}
+          icon={mealIsFavourite ? 'star' : 'star-outline'}
+          onPress={triggerWhenPressed}
+        />
+      ),
+    });
+  }, [mealIsFavourite]);
+
 
   const selectMeal = MEALS.find(meal => mealId === meal.id);
   return (
